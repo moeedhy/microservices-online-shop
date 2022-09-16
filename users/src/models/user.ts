@@ -6,16 +6,25 @@ import {
   CreationOptional,
 } from "sequelize";
 import { database } from "../helpers/database";
+import bcrypt from "bcrypt";
 
+enum UserRole {
+  admin = "admin",
+  customer = "customer",
+  modrator = "modrator",
+}
 interface User
   extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-  // Some fields are optional when calling UserModel.create() or UserModel.build()
   id: CreationOptional<number>;
   name: string;
+  lastname: string;
   phone: number;
-  email: string;
-  role: string;
-  password: string;
+  country: number | null;
+  city: number | null;
+  address: string | null;
+  email: string | null;
+  role: CreationOptional<UserRole>;
+  password: string | null;
 }
 const User = database.define<User>(
   "User",
@@ -33,19 +42,38 @@ const User = database.define<User>(
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     role: {
       type: DataTypes.STRING,
-      defaultValue: "user",
+      defaultValue: UserRole.customer,
     },
     name: {
       type: DataTypes.STRING,
     },
+    lastname: {
+      type: DataTypes.STRING,
+    },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+      async set(value: string) {
+        const hashed = await bcrypt.hash(value, process.env.SECRET_KEY!);
+        this.setDataValue("password", hashed);
+      },
+    },
+    country: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    city: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   { timestamps: true }
