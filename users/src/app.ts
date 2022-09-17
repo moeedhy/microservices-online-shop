@@ -3,6 +3,10 @@ import cookieSession from "cookie-session";
 import { signup } from "./routes/signup";
 import { NotFoundError } from "./errors/not-found-error";
 import { errorHanlder } from "./middlewares/error-hanlder";
+import { updateUser } from "./routes/update-user";
+import { currentUser } from "./middlewares/current-user";
+import { currentUserRoute } from "./routes/current-user";
+import { signin } from "./routes/signin";
 
 const app = express();
 app.use(express.json());
@@ -15,8 +19,10 @@ app.use(
   })
 );
 
+// Check current user
+app.use(currentUser);
 // Routes
-app.use("/api/v1/users/", signup);
+app.use("/api/v1/users/", signup, updateUser, currentUserRoute, signin);
 
 // Not found error for missed routes
 app.get("*", () => {
