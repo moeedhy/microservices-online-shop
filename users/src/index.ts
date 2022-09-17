@@ -7,7 +7,8 @@ if (
   !process.env.DB_NAME ||
   !process.env.DB_USER ||
   !process.env.DB_PASS ||
-  !process.env.SECRET_KEY
+  !process.env.SECRET_KEY ||
+  !process.env.JWT_SECRET
 )
   throw new Error("please set parameters on .env file");
 const start = async () => {
