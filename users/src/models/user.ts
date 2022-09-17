@@ -36,7 +36,7 @@ const User = database.define<User>(
       unique: true,
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
@@ -58,8 +58,9 @@ const User = database.define<User>(
     password: {
       type: DataTypes.STRING,
       allowNull: true,
-      async set(value: string) {
-        const hashed = await bcrypt.hash(value, process.env.SECRET_KEY!);
+      set(value: string) {
+        if (value === null) return;
+        const hashed = bcrypt.hashSync(value, process.env.SECRET_KEY!);
         this.setDataValue("password", hashed);
       },
     },
