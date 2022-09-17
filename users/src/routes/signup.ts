@@ -43,7 +43,6 @@ router.post(
         name,
         password: null,
       });
-      console.log(newUser);
 
       // Sign data in jsonwebtoken and session
       const jwtData = jwt.sign(
