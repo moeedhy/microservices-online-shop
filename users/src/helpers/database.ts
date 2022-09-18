@@ -1,8 +1,6 @@
 import { Sequelize } from "sequelize";
-
-const sequeliez = new Sequelize("user", "postgres", "5744858", {
-  host: "localhost",
-  dialect: "postgres",
-});
+import * as dotenv from "dotenv";
+if (process.env.NODE_ENV === "test") dotenv.config();
+const sequeliez = new Sequelize(process.env.POSTGRES_URI!);
 
 export { sequeliez as database };

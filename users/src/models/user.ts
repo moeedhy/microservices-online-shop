@@ -60,7 +60,7 @@ const User = database.define<User>(
       allowNull: true,
       set(value: string) {
         if (value === null) return;
-        const hashed = bcrypt.hashSync(value, process.env.SECRET_KEY!);
+        const hashed = bcrypt.hashSync(value, 10);
         this.setDataValue("password", hashed);
       },
     },

@@ -17,11 +17,11 @@ router.post(
   [
     body("phone")
       .trim()
-      .isMobilePhone("any")
+      .isMobilePhone("any", { strictMode: true })
       .withMessage("Phone number is incorrect"),
     body(["name", "lastname"])
       .notEmpty()
-      .withMessage("Name and lastname is not valid"),
+      .withMessage("Name or lastname is not valid"),
   ],
   validationRequest,
   async (req: Request, res: Response, next: NextFunction) => {

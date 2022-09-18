@@ -3,15 +3,9 @@ import * as dotenv from "dotenv";
 import { database } from "./helpers/database";
 dotenv.config({ path: "./.env" });
 
-if (
-  !process.env.DB_NAME ||
-  !process.env.DB_USER ||
-  !process.env.DB_PASS ||
-  !process.env.SECRET_KEY ||
-  !process.env.JWT_SECRET
-)
-  throw new Error("please set parameters on .env file");
 const start = async () => {
+  if (!process.env.POSTGRES_URI) throw new Error("database parameters not set");
+  if (!process.env.JWT_KEY) throw new Error("JWT key not setup");
   try {
     await database.drop();
     await database.sync();
