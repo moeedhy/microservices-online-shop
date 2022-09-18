@@ -7,7 +7,6 @@ export const errorHanlder = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log(err);
   if (err instanceof CustomError)
     return res.status(err.statusCode).send(err.serialize());
   return res.status(500).send([{ message: err.message }]);

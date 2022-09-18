@@ -18,7 +18,7 @@ beforeAll(async () => {
   try {
     // await client.connect();
     // await client.query(`CREATE DATABASE ${process.env.DB_NAME}`);
-    await database.sync();
+    await database.sync({ logging: false });
   } catch (e) {
     console.log(e);
   }
@@ -26,7 +26,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   try {
-    await User.destroy();
+    await User.destroy({ truncate: true, logging: false });
   } catch (e) {
     console.log(e);
   }
@@ -36,7 +36,7 @@ afterAll(async () => {
   try {
     // await client.query("DROP DATABASE users_test");
     // await client.end();
-    await database.drop();
+    await database.drop({ logging: false });
     await database.close();
   } catch (e) {
     console.log(e);

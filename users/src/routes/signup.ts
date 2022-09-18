@@ -47,17 +47,15 @@ router.post(
       // Sign data in jsonwebtoken and session
       const jwtData = jwt.sign(
         { id: newUser.id, phone: newUser.phone },
-        process.env.JWT_SECRET!
+        process.env.JWT_KEY!
       );
       req.session = { jwt: jwtData };
 
       // Send response to client service
-      res
-        .send({
-          message: "User created",
-          data: { id: newUser.id, phone: newUser.phone },
-        })
-        .status(201);
+      res.status(201).send({
+        message: "User created",
+        data: { id: newUser.id, phone: newUser.phone },
+      });
     } catch (e) {
       next(e);
     }
