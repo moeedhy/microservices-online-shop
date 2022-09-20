@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from "express";
 import User from "../models/user";
 import { body } from "express-validator";
-import { validationRequest } from "../middlewares/validation-request";
-import { AuthError } from "../errors/auth-error";
+import { validationRequest } from "@moeed/common";
+import { AuthError } from "@moeed/common";
 import jwt from "jsonwebtoken";
 
 /*

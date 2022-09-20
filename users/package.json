@@ -17,6 +17,7 @@
   "author": "Moeed",
   "license": "ISC",
   "dependencies": {
+    "@moeed/common": "^1.0.12",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-session": "^2.0.44",
     "@types/express": "^4.17.13",

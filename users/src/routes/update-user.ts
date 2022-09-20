@@ -1,9 +1,9 @@
 import { body } from "express-validator";
-import { validationRequest } from "../middlewares/validation-request";
+import { validationRequest } from "@moeed/common";
 import { NextFunction, Request, Response, Router } from "express";
 import User from "../models/user";
-import { AuthError } from "../errors/auth-error";
-import { requireAuth } from "../middlewares/require-auth";
+import { AuthError } from "@moeed/common";
+import { requireAuth } from "@moeed/common";
 
 const router = Router();
 router.put(

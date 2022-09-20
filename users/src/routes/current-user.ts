@@ -1,9 +1,9 @@
 import { Router } from "express";
-import jwt from "jsonwebtoken";
-import { requireAuth } from "../middlewares/require-auth";
-import { currentUser } from "../middlewares/current-user";
+
+import { requireAuth } from "@moeed/common";
+
 import User from "../models/user";
-import { AuthError } from "../errors/auth-error";
+import { AuthError } from "@moeed/common";
 
 /*
  Get current user's information
