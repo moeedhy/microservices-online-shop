@@ -19,7 +19,7 @@ router.get("/currentuser", requireAuth, async (req, res, next) => {
       user;
 
     res.status(200).send({
-      message: "User Founded",
+      message: "User is logged in",
       data: {
         user: {
           id,

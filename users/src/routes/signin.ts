@@ -41,7 +41,7 @@ router.post(
 
       // Set JWT data
       const jwtData = jwt.sign(
-        { id: user.id, phone: user.phone },
+        { id: user.id, phone: user.phone , role: user.role},
         process.env.JWT_SECRET!
       );
       // Set cookie

@@ -46,7 +46,7 @@ router.post(
 
       // Sign data in jsonwebtoken and session
       const jwtData = jwt.sign(
-        { id: newUser.id, phone: newUser.phone },
+        { id: newUser.id, phone: newUser.phone , role:newUser.role},
         process.env.JWT_KEY!
       );
       req.session = { jwt: jwtData };

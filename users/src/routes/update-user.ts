@@ -14,6 +14,9 @@ router.put(
       .isEmail()
       .normalizeEmail()
       .withMessage("Email is not valid"),
+      body(['name,lastname']).notEmpty(),
+      body(['country', 'city']).isNumeric(),
+      body('password').isLength({min:8})
   ],
   validationRequest,
   requireAuth,
