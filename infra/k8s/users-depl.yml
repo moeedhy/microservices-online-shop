@@ -22,7 +22,7 @@ spec:
                   name: jwt-secret
                   key: JWT_KEY
             - name: POSTGRES_URI
-              value: 'postgres://user:pass@users-postgres-srv:5432/users'
+              value: 'postgres://users-postgres-srv:5432/users'
 
 ---
 apiVersion: v1

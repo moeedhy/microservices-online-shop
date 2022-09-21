@@ -15,7 +15,7 @@ spec:
       containers:
         - name: users-postgres
           image: postgres
-          imagePullPolicy: Never
+
 ---
 apiVersion: v1
 kind: Service
