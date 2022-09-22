@@ -1,23 +1,20 @@
-import { Client } from "pg";
-
-import { database } from "../helpers/database";
+import {database} from "../helpers/database";
 import * as dotenv from "dotenv";
 import User from "../models/user";
-dotenv.config();
-// const client = new Client({
-//   host: "127.0.0.1",
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   port: 5432,
-// });
+import request from "supertest";
+import {app} from "../app";
 
+dotenv.config();
+
+declare global {
+  var signin: () => Promise<string[]>;
+}
 beforeAll(async () => {
   if (!process.env.POSTGRES_URI) throw new Error("Postgres uri not found");
   if (!process.env.JWT_KEY) throw new Error("JWT key not found");
 
   try {
-    // await client.connect();
-    // await client.query(`CREATE DATABASE ${process.env.DB_NAME}`);
+
     await database.sync({ logging: false });
   } catch (e) {
     console.log(e);
@@ -34,11 +31,21 @@ beforeEach(async () => {
 
 afterAll(async () => {
   try {
-    // await client.query("DROP DATABASE users_test");
-    // await client.end();
+
     await database.drop({ logging: false });
     await database.close();
   } catch (e) {
     console.log(e);
   }
 });
+
+global.signin = async () => {
+  const phone = "+989155555555";
+  const name = "test";
+  const lastname = "testly";
+  const response = await request(app)
+      .post("/api/users/signup")
+      .send({ phone, name,lastname })
+      .expect(201);
+  return response.get("Set-Cookie");
+};
