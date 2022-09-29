@@ -4,6 +4,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import User from "../models/user";
 import { AuthError } from "@moeed/common";
 import { requireAuth } from "@moeed/common";
+import { isAdmin } from "@moeed/common";
 
 const router = Router();
 router.put(
@@ -14,12 +15,13 @@ router.put(
       .isEmail()
       .normalizeEmail()
       .withMessage("Email is not valid"),
-      body(['name,lastname']).notEmpty(),
-      body(['country', 'city']).isNumeric(),
-      body('password').isLength({min:8})
+    body(["name,lastname"]).notEmpty(),
+    body(["country", "city"]).isNumeric(),
+    body("password").isLength({ min: 8 }),
   ],
   validationRequest,
   requireAuth,
+  isAdmin,
   async (req: Request, res: Response, next: NextFunction) => {
     // Get user's id from jwt
     const id = req.currentUser?.id;
@@ -41,11 +43,13 @@ router.put(
       },
       {
         where: { id: user.id },
+        returning: true,
       }
     );
-    console.log(userUpdated);
-    // Set update needing to false
-    res.status(200).send({ message: "User updated", data: { id: user.id } });
+
+    res
+      .status(200)
+      .send({ message: "User updated", data: { result: userUpdated } });
   }
 );
 
