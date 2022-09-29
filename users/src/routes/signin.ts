@@ -32,16 +32,18 @@ router.post(
       const { phone, password } = req.body;
       const user = await User.findOne({ where: { phone } });
       if (!user) throw new AuthError("User not found");
+
       // Check the user has a password
       if (user.password === null)
         throw new AuthError("The user has not set a password");
+
       // Compare password
       const passCheck = await bcrypt.compare(password, user.password);
       if (!passCheck) throw new AuthError("Username or password is wrong!");
 
       // Set JWT data
       const jwtData = jwt.sign(
-        { id: user.id, phone: user.phone , role: user.role},
+        { id: user.id, phone: user.phone, role: user.role },
         process.env.JWT_SECRET!
       );
       // Set cookie

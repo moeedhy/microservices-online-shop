@@ -7,12 +7,9 @@ import {
 } from "sequelize";
 import { database } from "../helpers/database";
 import bcrypt from "bcrypt";
+import {UserRole} from "@moeed/common/build/middlewares/types/user-role";
 
-enum UserRole {
-  admin = "admin",
-  customer = "customer",
-  modrator = "modrator",
-}
+
 interface User
   extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   id: CreationOptional<number>;
