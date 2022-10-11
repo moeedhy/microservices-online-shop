@@ -3,6 +3,8 @@ import { body } from "express-validator";
 import { AttributeDoc } from "../models/attribute";
 import { Product, ProductAttrs } from "../models/product";
 import { AuthError, isAdmin, requireAuth } from "@moeed/common";
+import { ProductCreatedPublisher } from "../events/publishers/product-created";
+import { RabbitMQ } from "../Rabbit";
 
 const router = Router();
 
@@ -52,7 +54,13 @@ router.post(
         dimensions,
       });
       await product.save();
-
+      await new ProductCreatedPublisher(RabbitMQ.client).publish({
+        id: product.id,
+        price: product.price,
+        title: product.title,
+        quantity: product.quantity,
+        version: product.version,
+      });
       res
         .status(201)
         .send({ message: "Product created successfully", data: product });

@@ -62,6 +62,7 @@ interface ProductDoc extends mongoose.Document {
   images: [FileDoc];
   price: number;
   quantity: number;
+  version: number;
 }
 
 interface ProductModel extends mongoose.Model<ProductDoc> {
