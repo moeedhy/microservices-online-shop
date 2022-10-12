@@ -5,7 +5,7 @@ import User from "../models/user";
 
 const router = Router();
 
-router.delete("/delete:id", requireAuth, isAdmin, async (req, res, next) => {
+router.delete("/delete/:id", requireAuth, isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) throw new NotFoundError("User not found");
