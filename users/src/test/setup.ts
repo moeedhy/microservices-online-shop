@@ -1,8 +1,8 @@
-import {database} from "../helpers/database";
+import { database } from "../helpers/database";
 import * as dotenv from "dotenv";
 import User from "../models/user";
 import request from "supertest";
-import {app} from "../app";
+import { app } from "../app";
 
 dotenv.config();
 
@@ -14,8 +14,7 @@ beforeAll(async () => {
   if (!process.env.JWT_KEY) throw new Error("JWT key not found");
 
   try {
-
-    await database.sync({ logging: false });
+    await database.sync({ logging: false, force: true });
   } catch (e) {
     console.log(e);
   }
@@ -31,7 +30,6 @@ beforeEach(async () => {
 
 afterAll(async () => {
   try {
-
     await database.drop({ logging: false });
     await database.close();
   } catch (e) {
@@ -44,8 +42,8 @@ global.signin = async () => {
   const name = "test";
   const lastname = "testly";
   const response = await request(app)
-      .post("/api/v1/users/signup")
-      .send({ phone, name,lastname })
-      .expect(201);
+    .post("/api/v1/users/signup")
+    .send({ phone, name, lastname })
+    .expect(201);
   return response.get("Set-Cookie");
 };

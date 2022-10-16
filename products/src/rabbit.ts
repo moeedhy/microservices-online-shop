@@ -18,4 +18,4 @@ class Rabbit {
   }
 }
 
-export const RabbitMQ = new Rabbit();
+export const rabbitMQ = new Rabbit();

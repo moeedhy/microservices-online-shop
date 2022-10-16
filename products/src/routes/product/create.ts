@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { body } from "express-validator";
-import { AttributeDoc } from "../models/attribute";
-import { Product, ProductAttrs } from "../models/product";
+
+import { Product, ProductAttrs } from "../../models/product";
 import { AuthError, isAdmin, requireAuth } from "@moeed/common";
-import { ProductCreatedPublisher } from "../events/publishers/product-created";
-import { RabbitMQ } from "../Rabbit";
+import { ProductCreatedPublisher } from "../../events/publishers/product-created";
+import { rabbitMQ } from "../../rabbit";
+import { Category } from "../../models/category";
 
 const router = Router();
 
@@ -30,7 +30,16 @@ router.post(
         attributes,
         description,
         longDescription,
-      } = req.body as ProductAttrs;
+      } = req.body;
+
+      // check categories
+      const categoryCheck = await Category.find({ id: { $or: categories } });
+
+      // check attributes
+
+      // check tags
+
+      // check files
 
       const checkSku = await Product.findOne({ sku });
       if (checkSku) throw new AuthError("SKU is already existed");
@@ -54,7 +63,7 @@ router.post(
         dimensions,
       });
       await product.save();
-      await new ProductCreatedPublisher(RabbitMQ.client).publish({
+      await new ProductCreatedPublisher(rabbitMQ.client).publish({
         id: product.id,
         price: product.price,
         title: product.title,

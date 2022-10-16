@@ -4,6 +4,7 @@ import { TagDoc } from "./tag";
 import { FileDoc } from "./file";
 import { AttributeDoc } from "./attribute";
 import { Schema, Types } from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 // enums
 enum ProductAvailability {
@@ -68,7 +69,7 @@ interface ProductDoc extends mongoose.Document {
 interface ProductModel extends mongoose.Model<ProductDoc> {
   build(attrs: ProductAttrs): ProductDoc;
 }
-const productSchema = new mongoose.Schema<ProductDoc, ProductModel>(
+const productSchema = new mongoose.Schema(
   {
     type: {
       type: String,
@@ -142,6 +143,7 @@ const productSchema = new mongoose.Schema<ProductDoc, ProductModel>(
 );
 
 productSchema.set("versionKey", "version");
+productSchema.plugin(updateIfCurrentPlugin);
 
 productSchema.statics.build = (attrs: ProductAttrs) => {
   return new Product(attrs);
